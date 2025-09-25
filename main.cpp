@@ -145,13 +145,13 @@ int main() {
                 std::cout<<"Codigo: "<<cod<<std::endl;
                 
                 std::cout<<"\nIngrese nombre: ";
-                std::getline(nom);
+                std::getline(std::cin, nom);
 
                 stk = validarEntradaEnteros("\nIngrese stock: ");
                 pre = validarEntradaFloat("\nIngrese el precio: ");
 
                 std::cout<<"\nIngrese ubicacion: ";
-                std::getline(cin>>ubi);
+                std::getline(std::cin, ubi);
 
                 codigo[tam] = cod;
                 nombre[tam] = nom;
@@ -190,6 +190,8 @@ int main() {
             break;
             case 6: // Salir
                 std::cout<<"\nBye bye :D"<<std::endl;
+
+                
             break;
             default:
                 std::cout<<"Error: La opción no esta en el menú"<<std::endl;
@@ -211,8 +213,8 @@ int main() {
 void menu(){
     std::cout<<"\n- - - M e n ú - - -"<<std::endl<<std::endl;
     std::cout<<"1. Consultar un producto"<<std::endl;
-    std::cout<<"2. Registrar producto"<<std::endl;
-    std::cout<<"3. Actualizar inventario por ubicacion"<<std::endl;
+    std::cout<<"2. Actualizar inventario por ubicacion"<<std::endl;
+    std::cout<<"3. Registrar producto"<<std::endl;
     std::cout<<"4. Generar reporte de stock bajo"<<std::endl;
     std::cout<<"5. Encontrar el producto más barato"<<std::endl;
     std::cout<<"6. Salir"<<std::endl;
