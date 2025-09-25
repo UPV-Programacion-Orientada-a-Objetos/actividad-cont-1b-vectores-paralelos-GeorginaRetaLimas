@@ -188,10 +188,16 @@ int main() {
 
                 std::cout <<"El producto más barato es: " << nombre[index] << " con un precio de $" << precio[index] << std::endl;
             break;
-            case 6: // Salir
+            case 6: {// Salir 
                 std::cout<<"\nBye bye :D"<<std::endl;
 
-                
+                std::ofstream myfile;
+                myfile.open("file.txt");
+                for(int i = 0; i < tam ; i++){
+                    myfile<<codigo[i] <<","<<nombre[i]<<","<<stock[i]<<","<<precio[i]<<","<<ubicacion[i]<<std::endl;
+                }
+                myfile.close();
+                system("pause");}
             break;
             default:
                 std::cout<<"Error: La opción no esta en el menú"<<std::endl;
@@ -202,7 +208,7 @@ int main() {
         std::cin.clear();
         std::cin.ignore(1024, '\n');
 
-    } while(accion != 5);
+    } while(accion != 6);
 
 
 
