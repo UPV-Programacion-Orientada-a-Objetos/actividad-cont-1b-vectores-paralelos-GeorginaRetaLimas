@@ -1,1 +1,0 @@
-Código,Nombre,Cantidad,Precio,Ubicación
