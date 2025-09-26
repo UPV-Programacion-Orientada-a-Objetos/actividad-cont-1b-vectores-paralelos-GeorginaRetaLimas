@@ -30,7 +30,7 @@ int main() {
 
     // Abrir un archivo para leer
     std::ifstream archivoLeer;
-    archivoLeer.open("inventario.txt");
+    archivoLeer.open("archivo.txt");
     std::string linea;
 
     // Variables para pasar lo del txt
@@ -66,17 +66,17 @@ int main() {
                     case 0: // codigo
                         cod = std::stoi(campo); // string -> int
                     break;
-                    case 1: // nombre
+                    case 1: // ubicacion
+                        ubi = campo;
+                    break;
+                    case 2: // nombre
                         nom = campo;
                     break; //cantidad
-                    case 2:
+                    case 3:
                         stk = std::stoi(campo);
                     break;
-                    case 3: // precio
+                    case 4: // precio
                         pre = std::stof(campo);
-                    break;
-                    case 4: // ubicacion
-                        ubi = campo;
                     break;
                     default:
                     break;    
@@ -89,6 +89,11 @@ int main() {
             codigo[tam] = cod;
             nombre[tam] = nom;
             stock[tam] = stk;
+
+            if(stk > 50){
+                std::cout<<"Advertencia: Sobre stock de <"<<nom<<"> con ->"<<stk<<std::endl;
+            }
+
             precio[tam] = pre;
             ubicacion[tam] = ubi;
 
@@ -169,7 +174,7 @@ int main() {
             case 3: // Registrar nuevo producto
                 if(tam == 100){
                     std::cout<<"Ya hay 100 elementos en el stock :("<<std::endl;
-                    return;
+                    break;
                 }
 
                 cod = codigo[tam-1] + 1;
@@ -232,17 +237,17 @@ int main() {
             case 6: 
             {
                 // Crear archivo para escribir
-                std::ofstream archivoEscribir("inventario.txt");
+                std::ofstream archivoEscribir("archivo.txt");
 
                 if(archivoEscribir.is_open()){
-                    archivoEscribir << "Código,Nombre,Cantidad,Precio,Ubicación"<<std::endl;
+                    archivoEscribir << "Código,Ubicación,Nombre,Cantidad,Precio"<<std::endl;
 
                     for(int i = 0; i < tam ; i++){
                         archivoEscribir << codigo[i] << ",";
+                        archivoEscribir << ubicacion[i] << ",";
                         archivoEscribir << nombre[i] << ",";
                         archivoEscribir << stock[i] << ",";
-                        archivoEscribir << precio[i] << ",";
-                        archivoEscribir << ubicacion[i] <<std::endl;
+                        archivoEscribir << precio[i] << ","<<std::endl;
                     }
                 }
                 archivoEscribir.close();
