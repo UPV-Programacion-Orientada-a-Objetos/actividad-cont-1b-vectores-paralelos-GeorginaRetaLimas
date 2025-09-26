@@ -26,23 +26,32 @@ int main() {
     float precio[100] = {};
     std::string ubicacion[100] = {};
 
-    // Abrir un archivo
-    std::ifstream archivo;
-    archivo.open("file.txt");
+    // Abrir un archivo para leer
+    std::ifstream archivoLeer;
+    archivoLeer.open("inventario.txt");
     std::string linea;
 
     // Variables para pasar lo del txt
     int cod, stk; std::string nom, ubi; float pre;
     int contar;
 
-    if (archivo.is_open()){
+    if (archivoLeer.is_open()){
         bool primeraLinea = true;
+        bool llegarlimite = false;
 
-        while(std::getline(archivo, linea)){ // Leer el archivo linea por linea
+        while(std::getline(archivoLeer, linea)){ // Leer el archivo linea por linea
             if(primeraLinea){
                 primeraLinea = false;
                 continue; // Asi pasamos del encabezado
             }
+
+            if(tam == 100){
+                std::cout<<"Se llego al limite de registros"<<std::endl;
+                llegarlimite = true;
+                break;
+            }
+
+            std::cout<<"Tamaño: "<<tam<<std::endl;
 
             std::stringstream texto(linea); // crea stringstream a partir de la linea
             std::string campo;
@@ -74,6 +83,7 @@ int main() {
                 contar++;
             }
 
+            // Pasar los datos a los vectores
             codigo[tam] = cod;
             nombre[tam] = nom;
             stock[tam] = stk;
@@ -82,28 +92,22 @@ int main() {
 
             tam++;
         }
+    } else {
+        std::cout<<"Error: No se pudo abrir el archivo";
+        return 0;
     }
 
-    archivo.close();
+    archivoLeer.close();
 
     std::cout<<"\tBienvenido a Ferretería el Martillo"<<std::endl;
 
     do{menu();
         std::cin>>accion;
 
-        // Validación si falló la lectura
         if(std::cin.fail()){
             std::cout<<"Error: Valor invalido, no entero. Favor de ingresar numero entero"<<std::endl;
-            
-            // Limpia los marcadoresde error
             std::cin.clear();
-            
-            // Descarta la entrada incorrecta del buffer
             std::cin.ignore(1024, '\n');
-
-            //1024 -> Son los carácteres maximos que va (y puede) a descartar el ignore()
-            //\n   -> Es una delimitacion, detentra el descarte cuando vea un salto de linea independientemente de ya fueron los 1024 carácteres
-
             continue;
         }
 
@@ -209,16 +213,26 @@ int main() {
 
                 std::cout <<"El producto más barato es: " << nombre[index] << " con un precio de $" << precio[index] << std::endl;
             break;
-            case 6: {// Salir 
-                std::cout<<"\nBye bye :D"<<std::endl;
+            case 6: 
+            {
+                // Crear archivo para escribir
+                std::ofstream archivoEscribir("inventario.txt");
 
-                std::ofstream myfile;
-                myfile.open("file.txt");
-                for(int i = 0; i < tam ; i++){
-                    myfile<<codigo[i] <<","<<nombre[i]<<","<<stock[i]<<","<<precio[i]<<","<<ubicacion[i]<<std::endl;
+                if(archivoEscribir.is_open()){
+                    archivoEscribir << "Código,Nombre,Cantidad,Precio,Ubicación"<<std::endl;
+
+                    for(int i = 0; i < tam ; i++){
+                        archivoEscribir << codigo[i] << ",";
+                        archivoEscribir << nombre[i] << ",";
+                        archivoEscribir << stock[i] << ",";
+                        archivoEscribir << precio[i] << ",";
+                        archivoEscribir << ubicacion[i] <<std::endl;
+                    }
                 }
-                myfile.close();
-                system("pause");}
+                archivoEscribir.close();
+                std::cout<<"Guardando datos...."<<std::endl;
+                std::cout<<"¡Datos guardados exitosamente!"<<std::endl;
+            }
             break;
             default:
                 std::cout<<"Error: La opción no esta en el menú"<<std::endl;
