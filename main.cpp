@@ -135,8 +135,6 @@ int main() {
                 std::cin.clear();
                 std::cin.ignore(1024, '\n');
 
-                indexCero(tam);
-
                 std::cout<<"\nIngrese ubicacion inventario: ";
                 std::getline(std::cin, ubi);
 
@@ -169,6 +167,11 @@ int main() {
                 }
             break;
             case 3: // Registrar nuevo producto
+                if(tam == 100){
+                    std::cout<<"Ya hay 100 elementos en el stock :("<<std::endl;
+                    return;
+                }
+
                 cod = codigo[tam-1] + 1;
 
                 std::cout<<"Nuevo producto ---"<<std::endl;
