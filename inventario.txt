@@ -1,2 +1,1 @@
 Código,Nombre,Cantidad,Precio,Ubicación
-1,Ejemplo,1,8,a-2

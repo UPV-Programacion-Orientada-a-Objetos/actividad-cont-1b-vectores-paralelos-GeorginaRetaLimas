@@ -9,6 +9,7 @@ int validarEntradaEnteros(std::string texto);
 int buscarIndiceCodigo(int cod_entrada, int* codigo, int tam);
 int buscarIndiceUbicacion(std::string  ubi, std::string * ubicacion, int tam);
 int validarEntradaFloat(std::string texto);
+void indexCero(int tam);
 
 int main() {
     // Tamaño de los vectores predefinido en variable
@@ -52,7 +53,7 @@ int main() {
                 break;
             }
 
-            std::cout<<"Tamaño: "<<tam<<std::endl;
+            //std::cout<<"Tamaño: "<<tam<<std::endl;
 
             std::stringstream texto(linea); // crea stringstream a partir de la linea
             std::string campo;
@@ -94,7 +95,7 @@ int main() {
             tam++;
         }
     } else {
-        std::cout<<"Error: No se pudo abrir el archivo";
+        std::cout<<"Error: No se pudo abrir el archivo"<<std::endl;
     }
 
     archivoLeer.close();
@@ -113,6 +114,8 @@ int main() {
 
         switch(accion){
             case 1: // consulta
+                indexCero(tam);
+
                 cod_entrada = validarEntradaEnteros("Ingrese el código del producto");
                 index = buscarIndiceCodigo(cod_entrada, codigo, tam);
 
@@ -131,6 +134,8 @@ int main() {
             case 2: // Actualizar inventario
                 std::cin.clear();
                 std::cin.ignore(1024, '\n');
+
+                indexCero(tam);
 
                 std::cout<<"\nIngrese ubicacion inventario: ";
                 std::getline(std::cin, ubi);
@@ -193,6 +198,8 @@ int main() {
 
             break;
             case 4: // Generación de reportes
+                indexCero(tam);
+
                 std::cout<<"\n-- Reporte de productos con stock bajo --"<<std::endl;
                 std::cout<<"+-------+-----------------------+-------+-------+"<<std::endl;
                 for(int i = 0; i < tam; i++){
@@ -204,6 +211,8 @@ int main() {
                 std::cout<<"+-------+-----------------------+-------+-------+"<<std::endl;
             break;
             case 5: // Producto mas barato
+                indexCero(tam);    
+
                 index = 0;
                 precio_barato = precio[0];
 
@@ -361,4 +370,10 @@ int buscarIndiceUbicacion(std::string ubi, std::string * ubicacion, int tam){
     }
 
     return index;
+}
+
+void indexCero(int tam){
+    if(tam == 0){
+        std::cout<<"Advertencia: No hay registro de productos, no marcara error, pero registre un producto"<<std::endl;
+    }
 }
