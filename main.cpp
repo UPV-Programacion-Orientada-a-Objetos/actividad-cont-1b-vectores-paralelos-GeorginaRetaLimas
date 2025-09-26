@@ -95,7 +95,6 @@ int main() {
         }
     } else {
         std::cout<<"Error: No se pudo abrir el archivo";
-        return 0;
     }
 
     archivoLeer.close();
