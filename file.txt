@@ -1,5 +1,5 @@
-101,Martillo de bola,50,15.50,A-01
+101,Martillo de bola,65,15.5,A-01
 102,Destornillador Phillips,120,8.75,A-02
-103,Cinta métrica 5m,75,20.00,B-01
+103,Cinta métrica 5m,75,20,B-01
 104,Llave inglesa 10",45,25.99,B-02
-105,Taladro inalámbrico,8,120.00,C-01
+105,Taladro inalámbrico,8,120,C-01

@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
-#include <string.h>
+
 #include <fstream>
 #include <sstream>
-
 
 void menu();
 int validarEntradaEnteros(std::string texto);
@@ -12,15 +11,13 @@ int validarEntradaFloat(std::string texto);
 
 int main() {
     // Tamaño de los vectores predefinido en variable
-    int tam = 6;
+    int tam = 0;
+
+    // Variables para validaciones del programa
     int accion, cod_entrada, index;
     std::string ubi_entrada;
     bool valor_valido;
     float precio_barato;
-
-    std::ifstream inputFile;
-    inputFile.open("file.txt");
-    std::string linea;
 
     // Vectores paralelos
     int codigo[100] = {};
@@ -29,41 +26,65 @@ int main() {
     float precio[100] = {};
     std::string ubicacion[100] = {};
 
+    // Abrir un archivo
+    std::ifstream archivo;
+    archivo.open("file.txt");
+    std::string linea;
+
     // Variables para pasar lo del txt
-    int cod, stk;
-    std::string nom, ubi;
-    float pre;
+    int cod, stk; std::string nom, ubi; float pre;
+    int contar;
 
-    int n = 0;
+    if (archivo.is_open()){
+        bool primeraLinea = true;
 
-    if (inputFile.is_open()){
-        while(!inputFile.eof()){
-            std::getline(inputFile, linea);
-            //std::cout<<linea<<std::endl;
-
-            std::size_t encontrar = linea.find(",");
-            if(encontrar!= std::string::npos) {
-                cod = encontrar;
-                std::cout<<"Codigo: "<<cod<<std::endl;
+        while(std::getline(archivo, linea)){ // Leer el archivo linea por linea
+            if(primeraLinea){
+                primeraLinea = false;
+                continue; // Asi pasamos del encabezado
             }
 
-            encontrar = linea.find(",", encontrar+1);
-            if(encontrar!= std::string::npos) {
-                nom = encontrar;
-                std::cout<<"Nombre: "<<nom<<std::endl;
+            std::stringstream texto(linea); // crea stringstream a partir de la linea
+            std::string campo;
+
+            contar = 0;
+
+            // Leer el stringstream (texto) hasta que encuentre ',' la subcadena se guarda en campo
+            while(std::getline(texto, campo, ',')){
+                switch(contar){
+                    case 0: // codigo
+                        cod = std::stoi(campo); // string -> int
+                    break;
+                    case 1: // nombre
+                        nom = campo;
+                    break; //cantidad
+                    case 2:
+                        stk = std::stoi(campo);
+                    break;
+                    case 3: // precio
+                        pre = std::stof(campo);
+                    break;
+                    case 4: // ubicacion
+                        ubi = campo;
+                    break;
+                    default:
+                    break;    
+                }
+
+                contar++;
             }
 
-            /*
+            codigo[tam] = cod;
+            nombre[tam] = nom;
+            stock[tam] = stk;
+            precio[tam] = pre;
+            ubicacion[tam] = ubi;
 
-            codigo[n] = std::strlen(cod);
-            nombre[n] = nom;
-            stock[n] = std::strlen(cod);
-            precio[n] = std::stof(pre);
-            ubicacion[n] = ubi; */
+            tam++;
         }
     }
 
-    inputFile.close();
+    archivo.close();
 
     std::cout<<"\tBienvenido a Ferretería el Martillo"<<std::endl;
 
