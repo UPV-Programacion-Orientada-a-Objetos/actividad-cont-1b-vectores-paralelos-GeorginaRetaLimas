@@ -7,6 +7,7 @@
 void menu();
 int validarEntradaEnteros(std::string texto);
 int buscarIndiceCodigo(int cod_entrada, int* codigo, int tam);
+int buscarIndiceUbicacion(std::string  ubi, std::string * ubicacion, int tam);
 int validarEntradaFloat(std::string texto);
 
 int main() {
@@ -113,11 +114,7 @@ int main() {
 
         switch(accion){
             case 1: // consulta
-
-                // Validamos que el codigo de entrada sea valido
                 cod_entrada = validarEntradaEnteros("Ingrese el código del producto");
-
-                // Buscamos el indice del producto del codigo, si no lo encuentra retorna tam
                 index = buscarIndiceCodigo(cod_entrada, codigo, tam);
 
                 // Si retorno tam es porque no encontro el codigo
@@ -129,13 +126,17 @@ int main() {
                     std::cout<<"Nombre: "<<nombre[index]<<std::endl;
                     std::cout<<"Cantidad en stock: "<<stock[index]<<std::endl;
                     std::cout<<"Precio Unitario: $"<<precio[index]<<std::endl;
+                    std::cout<<"Ubicación: "<<ubicacion[index]<<std::endl;
                 }
             break;
             case 2: // Actualizar inventario
-                std::cout<<"\nIngrese codigo inventario: ";
-                std::cin>>ubi_entrada;
+                std::cin.clear();
+                std::cin.ignore(1024, '\n');
 
-                ubi_entrada = buscarIndiceCodigo(cod_entrada, codigo, tam);
+                std::cout<<"\nIngrese ubicacion inventario: ";
+                std::getline(std::cin, ubi);
+
+                index = buscarIndiceUbicacion(ubi, ubicacion, tam);
 
                 if(index == tam){
                    std::cout<<"\nError: No hay un producto con el codigo "<<cod_entrada<<std::endl; 
@@ -169,12 +170,16 @@ int main() {
                 std::cout<<"Nuevo producto ---"<<std::endl;
                 std::cout<<"Codigo: "<<cod<<std::endl;
                 
+                std::cin.clear();
+                std::cin.ignore(1024, '\n');
                 std::cout<<"\nIngrese nombre: ";
                 std::getline(std::cin, nom);
 
-                stk = validarEntradaEnteros("\nIngrese stock: ");
-                pre = validarEntradaFloat("\nIngrese el precio: ");
+                stk = validarEntradaEnteros("Ingrese stock: ");
+                pre = validarEntradaFloat("Ingrese el precio: ");
 
+                std::cin.clear();
+                std::cin.ignore(1024, '\n');
                 std::cout<<"\nIngrese ubicacion: ";
                 std::getline(std::cin, ubi);
 
@@ -194,7 +199,7 @@ int main() {
                 for(int i = 0; i < tam; i++){
                     //codigo nombre stock precio
                     if(stock[i] < 10){
-                        std::cout<<"| "<<codigo[i]<<"\t| "<< nombre[i] <<"\t| "<<stock[i]<<"\t| "<< precio[i] <<"\t|"<<std::endl;
+                        std::cout<<"| "<<codigo[i]<<"\t| "<< nombre[i] <<"\t| "<<stock[i]<<"\t| "<< precio[i] <<"\t|" << ubicacion[i] <<"\t|"<<std::endl;
                     }
                 }
                 std::cout<<"+-------+-----------------------+-------+-------+"<<std::endl;
@@ -240,8 +245,6 @@ int main() {
         }
 
         // Limpialos el cin cada que iteramos para evitar errores
-        std::cin.clear();
-        std::cin.ignore(1024, '\n');
 
     } while(accion != 6);
 
@@ -329,6 +332,32 @@ int buscarIndiceCodigo(int cod_entrada, int* codigo, int tam){
 
     // Si no encuentra nada asignamos el valor del tamaño
     if (!cod_encontrado){
+        index = tam;
+    }
+
+    return index;
+}
+
+int buscarIndiceUbicacion(std::string ubi, std::string * ubicacion, int tam){
+    int index;
+    
+    std::cout<<"\n"<<ubi<<std::endl;
+
+    bool ubi_encontrada = false;
+
+    // Usamos un for para buscar una coincidencia en la entrada y codigo
+    for(int i = 0; i < tam; i++){
+        if(ubi == ubicacion[i]){
+            ubi_encontrada = true;
+            index = i; // Pasamos el index
+            break; // Cerramos el ciclo
+        } else {
+            ubi_encontrada = false;
+        }
+    }
+
+    // Si no encuentra nada asignamos el valor del tamaño
+    if (!ubi_encontrada){
         index = tam;
     }
 

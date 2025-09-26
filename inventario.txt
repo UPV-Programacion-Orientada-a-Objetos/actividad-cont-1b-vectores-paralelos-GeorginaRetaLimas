@@ -1,5 +1,5 @@
 Código,Nombre,Cantidad,Precio,Ubicación
-101,Martillo de bola,50,15.5,A-01
+101,Martillo de bola,55,15.5,A-01
 102,Destornillador Phillips,120,8.75,A-02
 103,Cinta métrica 5m,75,20,B-01
 104,Llave inglesa 10",45,25.99,B-02
@@ -49,3 +49,5 @@ Código,Nombre,Cantidad,Precio,Ubicación
 148,Fusibles surtidos (caja),80,10,I-03
 149,Cinta aislante,115,2.5,I-04
 150,Timbre inalámbrico,16,65,A-08
+151,Cobija Takis,151,2,T-54
+152,Destapacaños,152,10,D-58
